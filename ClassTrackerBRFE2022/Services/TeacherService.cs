@@ -49,6 +49,49 @@ namespace ClassTrackerBRFE2022.Services
 
         }
 
+        // Get a single Teacher
+
+        public static Teacher GetSingleTeacher(int id)
+        {
+            // Requires an ID
+            if (_client == null)
+            {
+                ConfigureClient();
+            }
+
+            // Send a Get request to the specified endpoint (+ the ID!)
+            HttpResponseMessage response = _client.GetAsync($"Teacher/{id}").Result;
+            // handle the response
+            var teacher = response.Content.ReadAsAsync<Teacher>().Result;
+            // return a teacher
+            return teacher;
+        }
+
+        // Update a Teacher
+
+        public static void UpdateTeacher(int id, Teacher updatedTeacher)
+        {
+            // requires an ID and a Teacher object
+            if (_client == null)
+            {
+                ConfigureClient();
+            }
+            // Send a Put request to the specified endpoint (+ the ID!)
+            HttpResponseMessage response = _client.PutAsJsonAsync($"Teacher/{id}", updatedTeacher).Result;
+            // Handle the response (check if success) 
+
+        }
+
+        // Delete a Teacher
+        public static void DeleteTeacher(int id)
+        {
+            if (_client == null)
+            {
+                ConfigureClient();
+            }
+            // Send a Put request to the specified endpoint (+ the ID!)
+            HttpResponseMessage response = _client.DeleteAsync($"Teacher/{id}").Result;
+        }
 
     }
 }

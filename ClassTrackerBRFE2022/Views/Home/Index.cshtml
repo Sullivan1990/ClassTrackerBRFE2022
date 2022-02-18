@@ -2,7 +2,21 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex justify-content-center align-items-center" style="border:1px black solid; height: 76vh">
+
+
+        @Html.ActionLink("Teacher","Index","Teacher",null,new { @class="btn btn-primary" }) 
+
+        @Html.ActionLink(
+            linkText:"Teacher", 
+            controllerName:"Teacher", 
+            actionName: "Index",
+            routeValues: null, 
+            htmlAttributes: new { @class = "btn btn-primary" }
+        )
+        
+        <a asp-action="Index" asp-controller="Teacher" asp-all-route-data='new Dictionary<string, string> { {"id", "1" }}' class="btn btn-primary">Teacher</a>
+
+        <a href="/Teacher/Index" class="btn btn-primary">Teacher</a>
+
 </div>

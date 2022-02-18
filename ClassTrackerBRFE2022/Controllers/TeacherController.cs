@@ -22,6 +22,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Details/5
         public ActionResult Details(int id)
         {
+
+            // use the teacher service to get a teacher
+            // return the teacher to the view
+            // Create the view!
+
             return View();
         }
 
@@ -51,6 +56,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Edit/5
         public ActionResult Edit(int id)
         {
+
+            // use the teacher service to get a teacher
+            // return the teacher to the view
+            // Create the view!
+
             return View();
         }
 
@@ -72,6 +82,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Delete/5
         public ActionResult Delete(int id)
         {
+
+            // use the teacher service to get a teacher
+            // return the teacher to the view
+            // Create the view!
+
             return View();
         }
 
