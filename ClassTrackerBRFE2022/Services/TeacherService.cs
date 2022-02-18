@@ -38,6 +38,17 @@ namespace ClassTrackerBRFE2022.Services
             //List<Teacher> teacherList = JsonSerializer.Deserialize<List<Teacher>>(result);
         }
 
+        public static void CreateNewTeacher(TeacherCreate teacher)
+        {
+            if (_client == null)
+            {
+                ConfigureClient();
+            }
+
+            HttpResponseMessage response = _client.PostAsJsonAsync("Teacher", teacher).Result;
+
+        }
+
 
     }
 }

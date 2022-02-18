@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassTrackerBRFE2022.Services;
+using ClassTrackerBRFE2022.Models.Teacher;
 
 namespace ClassTrackerBRFE2022.Controllers
 {
@@ -33,11 +34,13 @@ namespace ClassTrackerBRFE2022.Controllers
         // POST: TeacherController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(TeacherCreate teacher)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                TeacherService.CreateNewTeacher(teacher);
+
+                return RedirectToAction("Index");
             }
             catch
             {
