@@ -1,8 +1,10 @@
-﻿using System;
+﻿using ClassTrackerBRFE2022.Models.TeacherModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassTrackerBRFE2022.Models.TeacherModels;
+
+
 
 namespace ClassTrackerBRFE2022.Models.TafeClassModels
 {
@@ -15,7 +17,6 @@ namespace ClassTrackerBRFE2022.Models.TafeClassModels
         public DateTime? StartTime { get; set; }
         public int? DurationMinutes { get; set; }
 
-        // Foreign Key
 
         public int TeacherId { get; set; }
 

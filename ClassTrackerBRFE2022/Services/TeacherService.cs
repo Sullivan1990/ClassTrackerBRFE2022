@@ -31,6 +31,9 @@ namespace ClassTrackerBRFE2022.Services
             }
 
             HttpResponseMessage response = _client.GetAsync("Teacher").Result;
+#if DEBUG
+            response.EnsureSuccessStatusCode();
+#endif
             List<Teacher> teachers = response.Content.ReadAsAsync<List<Teacher>>().Result;
 
             return teachers;

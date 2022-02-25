@@ -34,7 +34,7 @@ namespace ClassTrackerBRFE2022.Services
             
         }
 
-        public static void CreateNewTafeClass(TafeClassCreate tafeClass)
+        public static void CreateNewTafeClass(TafeClass tafeClass)
         {
             if (_client == null)
             {
