@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
-using ClassTrackerBRFE2022.Models.Teacher;
+using ClassTrackerBRFE2022.Models.TeacherModels;
 using System.Text.Json;
 using System.Dynamic;
 

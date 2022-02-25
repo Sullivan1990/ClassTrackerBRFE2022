@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassTrackerBRFE2022.Services;
-using ClassTrackerBRFE2022.Models.Teacher;
+using ClassTrackerBRFE2022.Models.TeacherModels;
 
 namespace ClassTrackerBRFE2022.Controllers
 {
