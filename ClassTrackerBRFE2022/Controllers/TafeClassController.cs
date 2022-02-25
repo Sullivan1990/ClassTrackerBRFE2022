@@ -4,45 +4,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassTrackerBRFE2022.Services;
-using ClassTrackerBRFE2022.Models.Teacher;
 
 namespace ClassTrackerBRFE2022.Controllers
 {
-    public class TeacherController : Controller
+    public class TafeClassController : Controller
     {
-        // GET: TeacherController
+        // GET: TafeClassController
         public ActionResult Index()
         {
-            var teacherList = TeacherService.GetAllTeachers();
-
-            return View(teacherList);
+            return View();
         }
 
-        // GET: TeacherController/Details/5
+        // GET: TafeClassController/Details/5
         public ActionResult Details(int id)
         {
-            Teacher teacher = TeacherService.GetSingleTeacher(id);
-
-            return View(teacher);
+            return View();
         }
 
-        // GET: TeacherController/Create
+        // GET: TafeClassController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: TeacherController/Create
+        // POST: TafeClassController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TeacherCreate teacher)
+        public ActionResult Create(IFormCollection collection)
         {
             try
             {
-                TeacherService.CreateNewTeacher(teacher);
-
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -50,18 +42,13 @@ namespace ClassTrackerBRFE2022.Controllers
             }
         }
 
-        // GET: TeacherController/Edit/5
+        // GET: TafeClassController/Edit/5
         public ActionResult Edit(int id)
         {
-
-            // use the teacher service to get a teacher
-            // return the teacher to the view
-            // Create the view!
-
             return View();
         }
 
-        // POST: TeacherController/Edit/5
+        // POST: TafeClassController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -76,18 +63,13 @@ namespace ClassTrackerBRFE2022.Controllers
             }
         }
 
-        // GET: TeacherController/Delete/5
+        // GET: TafeClassController/Delete/5
         public ActionResult Delete(int id)
         {
-
-            // use the teacher service to get a teacher
-            // return the teacher to the view
-            // Create the view!
-
             return View();
         }
 
-        // POST: TeacherController/Delete/5
+        // POST: TafeClassController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
