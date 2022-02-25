@@ -1,4 +1,5 @@
 ﻿using ClassTrackerBRFE2022.Models.TafeClassModels;
+using ClassTrackerBRFE2022.Models.TeacherModels;
 using ClassTrackerBRFE2022.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,17 +13,26 @@ namespace ClassTrackerBRFE2022.Controllers
 {
     public class TafeClassController : Controller
     {
+        private readonly IApiRequest<TafeClass> _apiRequest;
+        private readonly IApiRequest<Teacher> _apiTeacherRequest;
+        private readonly string tafeclassController = "TafeClass";
+        public TafeClassController(IApiRequest<TafeClass> apiRequest, IApiRequest<Teacher> apiTeacherRequest)
+        {
+            _apiRequest = apiRequest;
+            _apiTeacherRequest = apiTeacherRequest;
+        }
+
         // GET: TafeClassController
         public ActionResult Index()
         {
-            List<TafeClass> tafeClasses = TafeClassService.GetAllTafeClasses();
+            List<TafeClass> tafeClasses = _apiRequest.GetAll(tafeclassController);
             return View(tafeClasses);
         }
 
         // GET: TafeClassController/Details/5
         public ActionResult Details(int id)
         {
-            TafeClass tafeClass = TafeClassService.GetSingleTafeClass(id);
+            TafeClass tafeClass = _apiRequest.GetSingle(tafeclassController, id);
             return View(tafeClass);
         }
 
@@ -30,7 +40,7 @@ namespace ClassTrackerBRFE2022.Controllers
         public ActionResult Create()
         {
             // Get a list of teachers from the API
-            var teachers = TeacherService.GetAllTeachers();
+            var teachers = _apiTeacherRequest.GetAll("Teachers");
 
             //// Create a List of SelectListItems
             //List<SelectListItem> teacherDDL = new List<SelectListItem>(); 
