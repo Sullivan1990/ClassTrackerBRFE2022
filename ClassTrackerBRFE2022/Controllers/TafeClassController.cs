@@ -13,19 +13,27 @@ namespace ClassTrackerBRFE2022.Controllers
 {
     public class TafeClassController : Controller
     {
+        #region Setup
+
         private readonly IApiRequest<TafeClass> _apiRequest;
         private readonly IApiRequest<Teacher> _apiTeacherRequest;
         private readonly string tafeclassController = "TafeClass";
+
         public TafeClassController(IApiRequest<TafeClass> apiRequest, IApiRequest<Teacher> apiTeacherRequest)
         {
             _apiRequest = apiRequest;
             _apiTeacherRequest = apiTeacherRequest;
         }
 
+        #endregion
+
+        #region General CRUD
+
         // GET: TafeClassController
         public ActionResult Index()
         {
             List<TafeClass> tafeClasses = _apiRequest.GetAll(tafeclassController);
+
             return View(tafeClasses);
         }
 
@@ -40,7 +48,7 @@ namespace ClassTrackerBRFE2022.Controllers
         public ActionResult Create()
         {
             // Get a list of teachers from the API
-            var teachers = _apiTeacherRequest.GetAll("Teachers");
+            var teachers = _apiTeacherRequest.GetAll("Teacher");
 
             //// Create a List of SelectListItems
             //List<SelectListItem> teacherDDL = new List<SelectListItem>(); 
@@ -132,5 +140,81 @@ namespace ClassTrackerBRFE2022.Controllers
                 return View();
             }
         }
+
+        #endregion
+
+        #region Custom Methods
+
+        /// <summary>
+        /// Returning a different set of data to the same View
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult TafeClassesForTeacher(int id)
+        {
+            List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController,id);
+
+            return View("Index", tafeClasses);
+        }
+
+        public ActionResult CreateNoFK()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNoFK(TafeClassCreateNoFK tafeclass)
+        {
+            TafeClass newTafeClass = new TafeClass()
+            {
+                Name = tafeclass.Name,
+                Description = tafeclass.Description,
+                Location = tafeclass.Location,
+                StartTime = tafeclass.StartTime,
+                DurationMinutes = tafeclass.DurationMinutes
+            };
+
+            _apiRequest.Create(tafeclassController, newTafeClass);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult AssignTeacherToClass(int id)
+        {
+            var tafeclasses = _apiRequest.GetSingle(tafeclassController, id);
+
+            var teachers = _apiTeacherRequest.GetAll("Teacher").Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.TeacherId.ToString()
+            });
+
+            ViewBag.Teachers = teachers;
+
+            return View(tafeclasses);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignTeacherToClass(int id, TafeClass tafeclass)
+        {
+            try
+            {
+                _apiRequest.Edit(tafeclassController, tafeclass, id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+
+        #endregion
+
+
     }
 }

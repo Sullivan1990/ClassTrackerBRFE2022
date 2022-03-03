@@ -1,4 +1,4 @@
-﻿using ClassTrackerBRFE2022.Models.TafeClassModels;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,6 @@ namespace ClassTrackerBRFE2022.Models.TeacherModels
         public string Phone { get; set; }
 
         // Navigation Properties
-        public ICollection<TafeClass> TafeClasses { get; set; }
+        public ICollection<TafeClassModels.TafeClass> TafeClasses { get; set; }
     }
 }

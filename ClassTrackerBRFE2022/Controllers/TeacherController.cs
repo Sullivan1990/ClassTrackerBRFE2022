@@ -6,20 +6,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClassTrackerBRFE2022.Services;
 using ClassTrackerBRFE2022.Models.TeacherModels;
+using ClassTrackerBRFE2022.Models.TafeClassModels;
 
 namespace ClassTrackerBRFE2022.Controllers
 {
     public class TeacherController : Controller
     {
+        #region Setup
+
         private readonly IApiRequest<Teacher> _apiRequest;
+        private readonly IApiRequest<TafeClass> _apiTafeClassRequest;
 
         private readonly string teacherController = "Teacher";
 
-        public TeacherController(IApiRequest<Teacher> apiRequest)
+        public TeacherController(IApiRequest<Teacher> apiRequest, IApiRequest<TafeClass> apiTafeClassRequest)
         {
             _apiRequest = apiRequest;
+            _apiTafeClassRequest = apiTafeClassRequest;
         }
+        #endregion
 
+        #region General CRUD
         // GET: TeacherController
         public ActionResult Index()
         {
@@ -73,24 +80,23 @@ namespace ClassTrackerBRFE2022.Controllers
         public ActionResult Edit(int id)
         {
 
-            // use the teacher service to get a teacher
-            // return the teacher to the view
-            // Create the view!
+            var teacher = _apiRequest.GetSingle(teacherController, id);
 
-            return View();
+            return View(teacher);
         }
 
         // POST: TeacherController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Teacher teacher)
         {
             try
             {
+                _apiRequest.Edit(teacherController, teacher, id);
                 return RedirectToAction(nameof(Index));
             }
             catch
-            {
+            {               
                 return View();
             }
         }
@@ -120,5 +126,13 @@ namespace ClassTrackerBRFE2022.Controllers
                 return View();
             }
         }
+
+        #endregion
+
+        #region Custom Endpoints
+
+
+
+        #endregion
     }
 }

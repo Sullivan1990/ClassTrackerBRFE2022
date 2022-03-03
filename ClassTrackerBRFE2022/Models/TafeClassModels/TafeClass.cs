@@ -18,11 +18,11 @@ namespace ClassTrackerBRFE2022.Models.TafeClassModels
         public int? DurationMinutes { get; set; }
 
 
-        public int TeacherId { get; set; }
+        public int? TeacherId { get; set; }
 
         // Navigation Properties
 
-        public Teacher Teacher { get; set; }
+        public Teacher? Teacher { get; set; }
         //public ICollection<Unit> Units { get; set; }
     }
 }

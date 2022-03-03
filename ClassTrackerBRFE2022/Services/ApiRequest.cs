@@ -55,9 +55,29 @@ namespace ClassTrackerBRFE2022.Services
 
         public T Edit(string controllerName, T entity, int id)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = _client.PutAsJsonAsync($"{controllerName}/{id}", entity).Result;
+
+            var responseEntity = response.Content.ReadAsAsync<T>().Result;
+
+            return responseEntity;
         }
 
+        public T GetEntityWithChildren(string controllerName, int id)
+        {
+            HttpResponseMessage response = _client.GetAsync($"{controllerName}/GetWithChildren/{id}").Result;
 
+            var entityResult = response.Content.ReadAsAsync<T>().Result;
+
+            return entityResult;
+        }
+
+        public List<T> GetAllForParentId(string controllerName, int id)
+        {
+            HttpResponseMessage response = _client.GetAsync($"{controllerName}/GetForParentId/{id}").Result;
+
+            var entityResult = response.Content.ReadAsAsync<List<T>>().Result;
+
+            return entityResult;
+        }
     }
 }
