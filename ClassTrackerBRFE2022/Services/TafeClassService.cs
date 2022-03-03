@@ -1,5 +1,4 @@
-﻿using ClassTrackerBRFE2022.Models.TafeClass;
-using ClassTrackerBRFE2022.Models.Teacher;
+﻿using ClassTrackerBRFE2022.Models.TafeClassModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClassTrackerBRFE2022.Services
 {
-    public class TafeClassService
+    public static class TafeClassService
     {
         private static HttpClient _client;
 
@@ -32,11 +31,12 @@ namespace ClassTrackerBRFE2022.Services
             List<TafeClass> tafeClasses = response.Content.ReadAsAsync<List<TafeClass>>().Result;
 
             return tafeClasses;
+            
             //var result = response.Content.ReadAsStringAsync().Result;
             //List<Teacher> teacherList = JsonSerializer.Deserialize<List<Teacher>>(result);
         }
 
-        public static void CreateNewTafeClass(TafeClassCreate tafeClass)
+        public static void CreateNewTafeClass(TafeClass tafeClass)
         {
             if (_client == null)
             {
@@ -47,7 +47,7 @@ namespace ClassTrackerBRFE2022.Services
 
         }
 
-        // Get a single Teacher
+        // Get a single TafeClass
 
         public static TafeClass GetSingleTafeClass(int id)
         {

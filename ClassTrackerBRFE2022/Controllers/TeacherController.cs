@@ -5,16 +5,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassTrackerBRFE2022.Services;
-using ClassTrackerBRFE2022.Models.Teacher;
+using ClassTrackerBRFE2022.Models.TeacherModels;
 
 namespace ClassTrackerBRFE2022.Controllers
 {
     public class TeacherController : Controller
     {
+        private readonly IApiRequest<Teacher> _apiRequest;
+
+        private readonly string teacherController = "Teacher";
+
+        public TeacherController(IApiRequest<Teacher> apiRequest)
+        {
+            _apiRequest = apiRequest;
+        }
+
         // GET: TeacherController
         public ActionResult Index()
         {
-            var teacherList = TeacherService.GetAllTeachers();
+            var teacherList = _apiRequest.GetAll(teacherController);
 
             return View(teacherList);
         }
@@ -22,12 +31,9 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Details/5
         public ActionResult Details(int id)
         {
+            Teacher teacher = _apiRequest.GetSingle(teacherController, id);
 
-            // use the teacher service to get a teacher
-            // return the teacher to the view
-            // Create the view!
-
-            return View();
+            return View(teacher);
         }
 
         // GET: TeacherController/Create
@@ -43,7 +49,17 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
-                TeacherService.CreateNewTeacher(teacher);
+
+                Teacher createdTeacher = new Teacher()
+                {
+                    Email = teacher.Email,
+                    Name = teacher.Name,
+                    Phone = teacher.Phone
+                };
+
+                _apiRequest.Create(teacherController, createdTeacher);
+
+                //TeacherService.CreateNewTeacher(teacher);
 
                 return RedirectToAction("Index");
             }

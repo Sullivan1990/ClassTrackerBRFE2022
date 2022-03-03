@@ -1,3 +1,6 @@
+using ClassTrackerBRFE2022.Models.TafeClassModels;
+using ClassTrackerBRFE2022.Models.TeacherModels;
+using ClassTrackerBRFE2022.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +27,11 @@ namespace ClassTrackerBRFE2022
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddSingleton<IApiRequest<Teacher>, ApiRequest<Teacher>>();
+            //services.AddSingleton<IApiRequest<Teacher>, ApiTestRequest<Teacher>>();
+            services.AddSingleton<IApiRequest<TafeClass>, ApiRequest<TafeClass>>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

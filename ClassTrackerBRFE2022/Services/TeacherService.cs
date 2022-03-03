@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
-using ClassTrackerBRFE2022.Models.Teacher;
+using ClassTrackerBRFE2022.Models.TeacherModels;
 using System.Text.Json;
 using System.Dynamic;
 
@@ -31,6 +31,9 @@ namespace ClassTrackerBRFE2022.Services
             }
 
             HttpResponseMessage response = _client.GetAsync("Teacher").Result;
+#if DEBUG
+            response.EnsureSuccessStatusCode();
+#endif
             List<Teacher> teachers = response.Content.ReadAsAsync<List<Teacher>>().Result;
 
             return teachers;

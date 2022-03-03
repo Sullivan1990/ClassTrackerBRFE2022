@@ -1,7 +1,17 @@
-﻿@model ClassTrackerBRFE2022.Models.TafeClass.TafeClassCreate
+﻿@model ClassTrackerBRFE2022.Models.TafeClassModels.TafeClass
 
 @{
+    // Added to demonstrate the different methods of passing data between the Controller and View
     ViewData["Title"] = "Create";
+    var teacherDropList = ViewBag.TeacherDropDown;
+
+    var teacherDropList2 = (List<SelectListItem>)ViewData["teacherDDL"];
+
+    var teacherDropList3 = ViewData["teacherDDL"] as List<SelectListItem>;
+
+    var teacherDropList4 = TempData["teacherDDL"] as List<SelectListItem>;
+
+
 }
 
 <h1>Create</h1>
@@ -36,6 +46,11 @@
                 <label asp-for="DurationMinutes" class="control-label"></label>
                 <input asp-for="DurationMinutes" class="form-control" />
                 <span asp-validation-for="DurationMinutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeacherId" class="control-label"></label>
+                <select asp-for="TeacherId" asp-items="@teacherDropList2" class="form-control"></select>
+                <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
