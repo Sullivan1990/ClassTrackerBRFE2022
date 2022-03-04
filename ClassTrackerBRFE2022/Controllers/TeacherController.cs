@@ -72,21 +72,20 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Edit/5
         public ActionResult Edit(int id)
         {
+            Teacher teacher = _apiRequest.GetSingle(teacherController, id);
 
-            // use the teacher service to get a teacher
-            // return the teacher to the view
-            // Create the view!
-
-            return View();
+            return View(teacher);
         }
 
         // POST: TeacherController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Teacher teacher)
         {
             try
             {
+                _apiRequest.Edit(teacherController, teacher, id);
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -98,12 +97,9 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Delete/5
         public ActionResult Delete(int id)
         {
+            Teacher teacher = _apiRequest.GetSingle(teacherController, id);
 
-            // use the teacher service to get a teacher
-            // return the teacher to the view
-            // Create the view!
-
-            return View();
+            return View(teacher);
         }
 
         // POST: TeacherController/Delete/5
@@ -113,6 +109,8 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
+                _apiRequest.Delete(teacherController, id);
+
                 return RedirectToAction(nameof(Index));
             }
             catch

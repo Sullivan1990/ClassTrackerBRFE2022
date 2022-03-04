@@ -25,6 +25,7 @@
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -43,9 +44,12 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
+                @Html.ActionLink("Classes", "TafeClassesForTeacher", "TafeClass", new { id=item.TeacherId }, new {@class="btn btn-primary"})
+            </td>
+            <td>
                 @Html.ActionLink("Edit", "Edit", new {  id=item.TeacherId }) |
                 @Html.ActionLink("Details", "Details", new { id=item.TeacherId }) |
-                @Html.ActionLink("", "Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { id=item.TeacherId })
             </td>
         </tr>
 }

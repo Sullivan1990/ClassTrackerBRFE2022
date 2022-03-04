@@ -15,7 +15,9 @@ namespace ClassTrackerBRFE2022.Controllers
     {
         private readonly IApiRequest<TafeClass> _apiRequest;
         private readonly IApiRequest<Teacher> _apiTeacherRequest;
+
         private readonly string tafeclassController = "TafeClass";
+
         public TafeClassController(IApiRequest<TafeClass> apiRequest, IApiRequest<Teacher> apiTeacherRequest)
         {
             _apiRequest = apiRequest;
@@ -23,10 +25,22 @@ namespace ClassTrackerBRFE2022.Controllers
         }
 
         // GET: TafeClassController
+        // Display ALL Tafeclasses
         public ActionResult Index()
         {
             List<TafeClass> tafeClasses = _apiRequest.GetAll(tafeclassController);
             return View(tafeClasses);
+        }
+
+        /// <summary>
+        /// Return a filtered list (based on the teacherID) of TafeClasses to the index view
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult TafeClassesForTeacher(int id)
+        {
+            List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
+            return View("Index", tafeClasses);
         }
 
         // GET: TafeClassController/Details/5
@@ -40,7 +54,7 @@ namespace ClassTrackerBRFE2022.Controllers
         public ActionResult Create()
         {
             // Get a list of teachers from the API
-            var teachers = _apiTeacherRequest.GetAll("Teachers");
+            var teachers = _apiTeacherRequest.GetAll("Teacher");
 
             //// Create a List of SelectListItems
             //List<SelectListItem> teacherDDL = new List<SelectListItem>(); 
@@ -81,7 +95,7 @@ namespace ClassTrackerBRFE2022.Controllers
             {
                 tafeClass.TafeClassId = 0;
 
-                TafeClassService.CreateNewTafeClass(tafeClass);
+                _apiRequest.Create("TafeClass", tafeClass);                
 
                 return RedirectToAction(nameof(Index));
             }
