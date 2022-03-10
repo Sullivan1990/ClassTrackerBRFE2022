@@ -3,6 +3,7 @@ using ClassTrackerBRFE2022.Models.TeacherModels;
 using ClassTrackerBRFE2022.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,9 +29,22 @@ namespace ClassTrackerBRFE2022
         {
             services.AddControllersWithViews();
 
-            services.AddSingleton<IApiRequest<Teacher>, ApiRequest<Teacher>>();
+            services.AddDistributedMemoryCache();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+
+            services.AddSession(c =>
+            {
+                c.Cookie.IsEssential = true;
+                c.IdleTimeout = TimeSpan.FromSeconds(60);
+                c.Cookie.HttpOnly = true;
+            }); 
+
+            services.AddScoped<IApiRequest<Teacher>, ApiRequest<Teacher>>();
             //services.AddSingleton<IApiRequest<Teacher>, ApiTestRequest<Teacher>>();
-            services.AddSingleton<IApiRequest<TafeClass>, ApiRequest<TafeClass>>();
+            services.AddScoped<IApiRequest<TafeClass>, ApiRequest<TafeClass>>();
             
         }
 
@@ -52,7 +66,11 @@ namespace ClassTrackerBRFE2022
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -23,6 +23,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController
         public ActionResult Index()
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             var teacherList = _apiRequest.GetAll(teacherController);
 
             return View(teacherList);
@@ -31,6 +36,10 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Details/5
         public ActionResult Details(int id)
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
             Teacher teacher = _apiRequest.GetSingle(teacherController, id);
 
             return View(teacher);
@@ -39,6 +48,10 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Create
         public ActionResult Create()
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
             return View();
         }
 
@@ -49,7 +62,10 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
-
+                if (!TokenService.isTokenValid(HttpContext))
+                {
+                    return RedirectToAction("Login", "Token");
+                }
                 Teacher createdTeacher = new Teacher()
                 {
                     Email = teacher.Email,
@@ -72,6 +88,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             Teacher teacher = _apiRequest.GetSingle(teacherController, id);
 
             return View(teacher);
@@ -84,6 +105,11 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
+                if (!TokenService.isTokenValid(HttpContext))
+                {
+                    return RedirectToAction("Login", "Token");
+                }
+
                 _apiRequest.Edit(teacherController, teacher, id);
 
                 return RedirectToAction(nameof(Index));
@@ -97,6 +123,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Delete/5
         public ActionResult Delete(int id)
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             Teacher teacher = _apiRequest.GetSingle(teacherController, id);
 
             return View(teacher);
@@ -109,6 +140,11 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
+                if (!TokenService.isTokenValid(HttpContext))
+                {
+                    return RedirectToAction("Login", "Token");
+                }
+
                 _apiRequest.Delete(teacherController, id);
 
                 return RedirectToAction(nameof(Index));

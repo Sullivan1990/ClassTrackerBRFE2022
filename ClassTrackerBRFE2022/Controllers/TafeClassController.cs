@@ -28,6 +28,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // Display ALL Tafeclasses
         public ActionResult Index()
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             List<TafeClass> tafeClasses = _apiRequest.GetAll(tafeclassController);
             return View(tafeClasses);
         }
@@ -39,6 +44,11 @@ namespace ClassTrackerBRFE2022.Controllers
         /// <returns></returns>
         public ActionResult TafeClassesForTeacher(int id)
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
             return View("Index", tafeClasses);
         }
@@ -46,6 +56,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TafeClassController/Details/5
         public ActionResult Details(int id)
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             TafeClass tafeClass = _apiRequest.GetSingle(tafeclassController, id);
             return View(tafeClass);
         }
@@ -53,6 +68,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TafeClassController/Create
         public ActionResult Create()
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             // Get a list of teachers from the API
             var teachers = _apiTeacherRequest.GetAll("Teacher");
 
@@ -93,6 +113,11 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
+                if (!TokenService.isTokenValid(HttpContext))
+                {
+                    return RedirectToAction("Login", "Token");
+                }
+
                 tafeClass.TafeClassId = 0;
 
                 _apiRequest.Create("TafeClass", tafeClass);                
@@ -108,6 +133,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TafeClassController/Edit/5
         public ActionResult Edit(int id)
         {
+            if(!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             return View();
         }
 
@@ -118,6 +148,11 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
+                if (!TokenService.isTokenValid(HttpContext))
+                {
+                    return RedirectToAction("Login", "Token");
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -129,6 +164,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TafeClassController/Delete/5
         public ActionResult Delete(int id)
         {
+            if (!TokenService.isTokenValid(HttpContext))
+            {
+                return RedirectToAction("Login", "Token");
+            }
+
             return View();
         }
 
@@ -139,6 +179,11 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
+                if (!TokenService.isTokenValid(HttpContext))
+                {
+                    return RedirectToAction("Login", "Token");
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch

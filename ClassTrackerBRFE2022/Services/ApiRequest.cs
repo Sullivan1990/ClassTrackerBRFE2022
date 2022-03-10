@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -9,16 +10,29 @@ namespace ClassTrackerBRFE2022.Services
 {
     public class ApiRequest<T> : IApiRequest<T>
     {
-        private static HttpClient _client;
+        private readonly HttpClient _client;
+        private readonly HttpContext _httpContext;
 
-        public ApiRequest()
+        public ApiRequest(IHttpContextAccessor httpContextAccessor)
         {
+            _httpContext = httpContextAccessor.HttpContext;
             if(_client == null)
             {
                 _client = new HttpClient();
                 _client.BaseAddress = new Uri("https://localhost:44379/api/");
                 _client.DefaultRequestHeaders.Clear();
                 _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+
+            // If we have a token stored
+            if(_httpContext.Session.GetString("Token") != null && _httpContext.Session.GetString("TokenExpiry") != null)
+            {
+                // If the token is still valid
+                if(DateTime.Parse(_httpContext.Session.GetString("TokenExpiry")) > DateTime.Now)
+                {
+                    // Set the Auth header to the token value
+                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _httpContext.Session.GetString("Token"));
+                }
             }
         }
         public List<T> GetAll(string controllerName)
