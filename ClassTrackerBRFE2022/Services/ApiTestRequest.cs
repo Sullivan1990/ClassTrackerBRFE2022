@@ -39,7 +39,7 @@ namespace ClassTrackerBRFE2022.Services
             return dataStore;
         }
 
-        public List<T> GetAllForParentId(string controllerName, int id)
+        public List<T> GetAllForParentId(string controllerName, string endpointName, int id)
         {
             throw new NotImplementedException();
         }

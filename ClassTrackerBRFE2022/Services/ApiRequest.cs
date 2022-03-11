@@ -50,7 +50,8 @@ namespace ClassTrackerBRFE2022.Services
 
         public void Delete(string controllerName, int id)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = _client.DeleteAsync($"{controllerName}/{id}").Result;
+
         }
 
         public T Edit(string controllerName, T entity, int id)
@@ -60,24 +61,23 @@ namespace ClassTrackerBRFE2022.Services
             var responseEntity = response.Content.ReadAsAsync<T>().Result;
 
             return responseEntity;
+
         }
 
-        public T GetEntityWithChildren(string controllerName, int id)
+        /// <summary>
+        /// Retrieves a list of items where the foreign key matches the provided Id
+        /// </summary>
+        /// <param name="controllerName"></param>
+        /// <param name="endpointName"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<T> GetAllForParentId(string controllerName, string endpointName, int id)
         {
-            HttpResponseMessage response = _client.GetAsync($"{controllerName}/GetWithChildren/{id}").Result;
+            var response = _client.GetAsync($"{controllerName}/{endpointName}/{id}").Result;
 
-            var entityResult = response.Content.ReadAsAsync<T>().Result;
+            var responseEntities = response.Content.ReadAsAsync<List<T>>().Result;
 
-            return entityResult;
-        }
-
-        public List<T> GetAllForParentId(string controllerName, int id)
-        {
-            HttpResponseMessage response = _client.GetAsync($"{controllerName}/GetForParentId/{id}").Result;
-
-            var entityResult = response.Content.ReadAsAsync<List<T>>().Result;
-
-            return entityResult;
+            return responseEntities;
         }
     }
 }

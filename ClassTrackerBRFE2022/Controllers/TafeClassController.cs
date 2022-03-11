@@ -17,6 +17,7 @@ namespace ClassTrackerBRFE2022.Controllers
 
         private readonly IApiRequest<TafeClass> _apiRequest;
         private readonly IApiRequest<Teacher> _apiTeacherRequest;
+
         private readonly string tafeclassController = "TafeClass";
 
         public TafeClassController(IApiRequest<TafeClass> apiRequest, IApiRequest<Teacher> apiTeacherRequest)
@@ -30,11 +31,23 @@ namespace ClassTrackerBRFE2022.Controllers
         #region General CRUD
 
         // GET: TafeClassController
+        // Display ALL Tafeclasses
         public ActionResult Index()
         {
             List<TafeClass> tafeClasses = _apiRequest.GetAll(tafeclassController);
 
             return View(tafeClasses);
+        }
+
+        /// <summary>
+        /// Return a filtered list (based on the teacherID) of TafeClasses to the index view
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult TafeClassesForTeacher(int id)
+        {
+            List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
+            return View("Index", tafeClasses);
         }
 
         // GET: TafeClassController/Details/5
@@ -89,7 +102,7 @@ namespace ClassTrackerBRFE2022.Controllers
             {
                 tafeClass.TafeClassId = 0;
 
-                TafeClassService.CreateNewTafeClass(tafeClass);
+                _apiRequest.Create("TafeClass", tafeClass);                
 
                 return RedirectToAction(nameof(Index));
             }
