@@ -1,3 +1,4 @@
+using Auth0.AspNetCore.Authentication;
 using ClassTrackerBRFE2022.Models.TafeClassModels;
 using ClassTrackerBRFE2022.Models.TeacherModels;
 using ClassTrackerBRFE2022.Services;
@@ -26,6 +27,12 @@ namespace ClassTrackerBRFE2022
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddAuth0WebAppAuthentication(options => {
+                    options.Domain = Configuration["Auth0:Domain"];
+                    options.ClientId = Configuration["Auth0:ClientId"];
+                });
+
             services.AddControllersWithViews();
 
             services.AddSingleton<IApiRequest<Teacher>, ApiRequest<Teacher>>();
@@ -52,6 +59,7 @@ namespace ClassTrackerBRFE2022
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
