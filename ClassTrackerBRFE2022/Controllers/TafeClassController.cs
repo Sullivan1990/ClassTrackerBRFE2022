@@ -16,6 +16,8 @@ namespace ClassTrackerBRFE2022.Controllers
         private readonly IApiRequest<TafeClass> _apiRequest;
         private readonly IApiRequest<Teacher> _apiTeacherRequest;
 
+        private static List<TafeClass> _allTafeClasses;
+
         private readonly string tafeclassController = "TafeClass";
 
         public TafeClassController(IApiRequest<TafeClass> apiRequest, IApiRequest<Teacher> apiTeacherRequest)
@@ -28,9 +30,38 @@ namespace ClassTrackerBRFE2022.Controllers
         // Display ALL Tafeclasses
         public ActionResult Index()
         {
-            List<TafeClass> tafeClasses = _apiRequest.GetAll(tafeclassController);
-            return View(tafeClasses);
+            _allTafeClasses = _apiRequest.GetAll(tafeclassController);
+            return View(_allTafeClasses);
         }
+
+        /// <summary>
+        /// Returns a filtered list of TafeClasses as a partial view result, is called when the input of the filter text field changes
+        /// </summary>
+        /// <param name="locationFilter"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult TafeClassList(string locationFilter = "")
+        {
+            List<TafeClass> tafeClasses = _allTafeClasses;
+
+            if(locationFilter == null)
+            {
+                return PartialView(_allTafeClasses);
+            }
+            else
+            {
+                return PartialView(tafeClasses.Where(c => c.Name != null && c.Name.ToLower().Contains(locationFilter.ToLower())));
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult TafeClassDetail(int tafeClassId)
+        {
+            TafeClass tafeClass = _apiRequest.GetSingle(tafeclassController, tafeClassId);
+            return PartialView(tafeClass);
+        }
+
 
         /// <summary>
         /// Return a filtered list (based on the teacherID) of TafeClasses to the index view
