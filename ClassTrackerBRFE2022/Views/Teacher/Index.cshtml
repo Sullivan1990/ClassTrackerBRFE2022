@@ -9,6 +9,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@using (Html.BeginForm("Filter", "Teacher", FormMethod.Post)) {
+    <select asp-items="@ViewBag.TeacherDDL" name="teacherDDL"></select>
+    <input type="submit" value="submit"/>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -43,8 +49,8 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.TeacherId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.TeacherId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.TeacherId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.TeacherId }) |
                 @Html.ActionLink("", "Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>

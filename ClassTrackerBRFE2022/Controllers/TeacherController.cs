@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClassTrackerBRFE2022.Services;
 using ClassTrackerBRFE2022.Models.TeacherModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ClassTrackerBRFE2022.Controllers
 {
@@ -20,10 +21,34 @@ namespace ClassTrackerBRFE2022.Controllers
             _apiRequest = apiRequest;
         }
 
+        [HttpPost]
+        public IActionResult Filter(IFormCollection collection)
+        {
+            var result = collection["teacherDDL"].ToString();
+            return RedirectToAction("Index", new {filter = result});
+        }
+
         // GET: TeacherController
-        public ActionResult Index()
+        public ActionResult Index(string filter = "")
         {
             var teacherList = _apiRequest.GetAll(teacherController);
+
+            
+
+            var teacherDDL = teacherList.Select(c => new SelectListItem
+            {
+                Value = c.Name,
+                Text = c.Name
+            });
+
+            ViewBag.TeacherDDL = teacherDDL;
+
+            if (!String.IsNullOrEmpty(filter))
+            {
+                var teacherfilteredList = teacherList.Where(c => c.Name == filter);
+                return View(teacherfilteredList);
+
+            }
 
             return View(teacherList);
         }
