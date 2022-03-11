@@ -31,6 +31,13 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController
         public ActionResult Index(string filter = "")
         {
+            // If we do not have a token in the session 
+            if(!HttpContext.Session.Keys.Any(c => c.Equals("Token")))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+
             var teacherList = _apiRequest.GetAll(teacherController);
 
             

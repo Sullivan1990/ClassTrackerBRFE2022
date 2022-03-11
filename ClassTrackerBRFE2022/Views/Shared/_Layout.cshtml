@@ -32,6 +32,16 @@
                         </li>
                     </ul>
                 </div>
+
+                @if (Context.Session.Keys.Any(c => c.Equals("Token")))
+                {
+                    <a class="btn btn-danger" asp-controller="Auth" asp-action="Logout">Logout</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary" asp-controller="Auth" asp-action="Login">Login</a>
+                }
+
             </div>
         </nav>
     </header>

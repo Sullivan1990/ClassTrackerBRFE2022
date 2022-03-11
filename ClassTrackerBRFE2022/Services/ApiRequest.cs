@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,9 +11,13 @@ namespace ClassTrackerBRFE2022.Services
     public class ApiRequest<T> : IApiRequest<T>
     {
         private static HttpClient _client;
-
-        public ApiRequest()
+        // required to gain access to the context
+        private readonly HttpContext _httpContext;
+        public ApiRequest(IHttpContextAccessor httpContextAccessor)
         {
+            // injecting a reference to the current context
+            _httpContext = httpContextAccessor.HttpContext;
+
             if(_client == null)
             {
                 _client = new HttpClient();
@@ -20,6 +25,15 @@ namespace ClassTrackerBRFE2022.Services
                 _client.DefaultRequestHeaders.Clear();
                 _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             }
+
+            // if true, a token exists in the session
+            if(_httpContext.Session.GetString("Token") != null)
+            {
+                // add the token to the HttpClient 
+                _client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", _httpContext.Session.GetString("Token"));
+            }
+
         }
         public List<T> GetAll(string controllerName)
         {
