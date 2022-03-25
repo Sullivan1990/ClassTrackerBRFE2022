@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ClassTrackerBRFE2022.Services;
 using ClassTrackerBRFE2022.Models.TeacherModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ClassTrackerBRFE2022.Helpers;
 
 namespace ClassTrackerBRFE2022.Controllers
 {
@@ -31,16 +32,7 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController
         public ActionResult Index(string filter = "")
         {
-            // If we do not have a token in the session 
-            if(!HttpContext.Session.Keys.Any(c => c.Equals("Token")))
-            {
-                return RedirectToAction("Login", "Auth");
-            }
-
-
             var teacherList = _apiRequest.GetAll(teacherController);
-
-            
 
             var teacherDDL = teacherList.Select(c => new SelectListItem
             {
@@ -104,6 +96,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (!AuthenticationHelper.isAuthenticated(this.HttpContext))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
             Teacher teacher = _apiRequest.GetSingle(teacherController, id);
 
             return View(teacher);
@@ -116,6 +113,11 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
+                if (!AuthenticationHelper.isAuthenticated(this.HttpContext))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
                 _apiRequest.Edit(teacherController, teacher, id);
 
                 return RedirectToAction(nameof(Index));
@@ -129,6 +131,11 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Delete/5
         public ActionResult Delete(int id)
         {
+            if (!AuthenticationHelper.isAuthenticated(this.HttpContext))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
             Teacher teacher = _apiRequest.GetSingle(teacherController, id);
 
             return View(teacher);
@@ -141,6 +148,12 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             try
             {
+
+                if (!AuthenticationHelper.isAuthenticated(this.HttpContext))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
                 _apiRequest.Delete(teacherController, id);
 
                 return RedirectToAction(nameof(Index));
@@ -150,5 +163,27 @@ namespace ClassTrackerBRFE2022.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        public IActionResult FilterTeacher(IFormCollection collection)
+        {
+            // Retrieve filter text
+            string filterText = collection["emailProvider"];
+
+            //var teacherList = _apiRequest.GetAll(teacherController).Where(c => c.Email.Contains(filterText)).ToList();
+
+            // retrieve a list of all teachers
+            var teacherList = _apiRequest.GetAll(teacherController);
+
+            // filter that list, return the results to a new list
+            var filteredList = teacherList.Where(c => c.Email.ToLower().Contains(filterText.ToLower())).ToList();
+
+            // return this list to the index page
+            return View("Index", filteredList);
+
+            // Very Bad
+            //return View("Index", _apiRequest.GetAll(teacherController).Where(c => c.Email.Contains(collection["emailProvider"])).ToList());
+        }
+
     }
 }

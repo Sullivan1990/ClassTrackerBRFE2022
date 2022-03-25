@@ -43,9 +43,6 @@ namespace ClassTrackerBRFE2022.Controllers
                     // potentially save a message to ViewBag and render in the view
                     return View();
                 }
-
-
-
             }
 
                 return RedirectToAction("Index", "Home");
