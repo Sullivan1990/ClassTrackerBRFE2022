@@ -40,9 +40,9 @@ namespace ClassTrackerBRFE2022
                 opts.Cookie.HttpOnly = true;
                 opts.Cookie.IsEssential = true;
             });
-
-            services.AddScoped<IApiRequest<TafeClass>, TafeClassRepository >();
-            services.AddScoped<IApiRequest<Teacher>, TeacherRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ITafeClassRepository, TafeClassRepository >();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
             
         }
 

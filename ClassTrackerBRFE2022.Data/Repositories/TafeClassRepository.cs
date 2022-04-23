@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ClassTrackerBRFE2022.Data.Repositories
 {
-    public class TafeClassRepository : ApiRequest<TafeClass>
+    public class TafeClassRepository : ApiRequest<TafeClass>, ITafeClassRepository
     {
         public TafeClassRepository(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {

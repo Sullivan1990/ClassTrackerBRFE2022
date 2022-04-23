@@ -13,13 +13,13 @@ namespace ClassTrackerBRFE2022.Controllers
 {
     public class TeacherController : Controller
     {
-        private readonly IApiRequest<Teacher> _apiRequest;
+        private readonly TeacherRepository _teacherService;
 
         private readonly string teacherController = "Teacher";
 
-        public TeacherController(IApiRequest<Teacher> apiRequest)
+        public TeacherController(TeacherRepository teacherService)
         {
-            _apiRequest = apiRequest;
+            _teacherService = teacherService;
         }
 
         [HttpPost]
@@ -32,7 +32,7 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController
         public ActionResult Index(string filter = "")
         {
-            var teacherList = _apiRequest.GetAll(teacherController);
+            var teacherList = _teacherService.GetAll(teacherController);
 
             var teacherDDL = teacherList.Select(c => new SelectListItem
             {
@@ -55,7 +55,7 @@ namespace ClassTrackerBRFE2022.Controllers
         // GET: TeacherController/Details/5
         public ActionResult Details(int id)
         {
-            Teacher teacher = _apiRequest.GetSingle(teacherController, id);
+            Teacher teacher = _teacherService.GetSingle(teacherController, id);
 
             return View(teacher);
         }
@@ -81,7 +81,7 @@ namespace ClassTrackerBRFE2022.Controllers
                     Phone = teacher.Phone
                 };
 
-                _apiRequest.Create(teacherController, createdTeacher);
+                _teacherService.Create(teacherController, createdTeacher);
 
                 //TeacherService.CreateNewTeacher(teacher);
 
@@ -101,7 +101,7 @@ namespace ClassTrackerBRFE2022.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            Teacher teacher = _apiRequest.GetSingle(teacherController, id);
+            Teacher teacher = _teacherService.GetSingle(teacherController, id);
 
             return View(teacher);
         }
@@ -118,7 +118,7 @@ namespace ClassTrackerBRFE2022.Controllers
                     return RedirectToAction("Login", "Auth");
                 }
 
-                _apiRequest.Edit(teacherController, teacher, id);
+                _teacherService.Edit(teacherController, teacher, id);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -136,7 +136,7 @@ namespace ClassTrackerBRFE2022.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            Teacher teacher = _apiRequest.GetSingle(teacherController, id);
+            Teacher teacher = _teacherService.GetSingle(teacherController, id);
 
             return View(teacher);
         }
@@ -154,7 +154,7 @@ namespace ClassTrackerBRFE2022.Controllers
                     return RedirectToAction("Login", "Auth");
                 }
 
-                _apiRequest.Delete(teacherController, id);
+                _teacherService.Delete(teacherController, id);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -173,7 +173,7 @@ namespace ClassTrackerBRFE2022.Controllers
             //var teacherList = _apiRequest.GetAll(teacherController).Where(c => c.Email.Contains(filterText)).ToList();
 
             // retrieve a list of all teachers
-            var teacherList = _apiRequest.GetAll(teacherController);
+            var teacherList = _teacherService.GetAll(teacherController);
 
             // filter that list, return the results to a new list
             var filteredList = teacherList.Where(c => c.Email.ToLower().Contains(filterText.ToLower())).ToList();

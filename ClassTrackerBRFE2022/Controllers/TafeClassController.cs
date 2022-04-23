@@ -14,15 +14,15 @@ namespace ClassTrackerBRFE2022.Controllers
 {
     public class TafeClassController : Controller
     {
-        private readonly TafeClassRepository _tafeClassService;
-        private readonly IApiRequest<Teacher> _apiTeacherRequest;
+        private readonly ITafeClassRepository _tafeClassService;
+        private readonly ITeacherRepository _teacherService;
 
         private readonly string tafeclassController = "TafeClass";
 
-        public TafeClassController(TafeClassRepository tafeClassService, IApiRequest<Teacher> apiTeacherRequest)
+        public TafeClassController(ITafeClassRepository tafeClassService, ITeacherRepository teacherService)
         {
             _tafeClassService = tafeClassService;
-            _apiTeacherRequest = apiTeacherRequest;
+            _teacherService = teacherService;
         }
 
         // GET: TafeClassController
@@ -55,7 +55,7 @@ namespace ClassTrackerBRFE2022.Controllers
         public ActionResult Create()
         {
             // Get a list of teachers from the API
-            var teachers = _apiTeacherRequest.GetAll("Teacher");
+            var teachers = _teacherService.GetAll("Teacher");
 
             //// Create a List of SelectListItems
             //List<SelectListItem> teacherDDL = new List<SelectListItem>(); 
