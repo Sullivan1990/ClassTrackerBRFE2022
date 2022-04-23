@@ -1,6 +1,3 @@
-using ClassTrackerBRFE2022.Models.TafeClassModels;
-using ClassTrackerBRFE2022.Models.TeacherModels;
-using ClassTrackerBRFE2022.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ClassTrackerBRFE2022.Data;
+using ClassTrackerBRFE2022.Data.Repositories;
+using ClassTrackerBRFE2022.Data.Models.TeacherModels;
+using ClassTrackerBRFE2022.Data.Models.TafeClassModels;
 
 namespace ClassTrackerBRFE2022
 {
@@ -40,11 +41,8 @@ namespace ClassTrackerBRFE2022
                 opts.Cookie.IsEssential = true;
             });
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddScoped<IApiRequest<Teacher>, ApiRequest<Teacher>>();
-            //services.AddSingleton<IApiRequest<Teacher>, ApiTestRequest<Teacher>>();
-            services.AddSingleton<IApiRequest<TafeClass>, ApiRequest<TafeClass>>();
+            services.AddScoped<IApiRequest<TafeClass>, TafeClassRepository >();
+            services.AddScoped<IApiRequest<Teacher>, TeacherRepository>();
             
         }
 

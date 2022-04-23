@@ -6,13 +6,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace ClassTrackerBRFE2022.Services
+namespace ClassTrackerBRFE2022.Data.Repositories
 {
     public class ApiRequest<T> : IApiRequest<T>
     {
-        private static HttpClient _client;
+        internal readonly HttpClient _client;
         // required to gain access to the context
-        private readonly HttpContext _httpContext;
+        internal readonly HttpContext _httpContext;
         public ApiRequest(IHttpContextAccessor httpContextAccessor)
         {
             // injecting a reference to the current context

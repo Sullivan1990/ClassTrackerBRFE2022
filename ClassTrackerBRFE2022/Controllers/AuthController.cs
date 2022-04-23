@@ -1,4 +1,4 @@
-﻿using ClassTrackerBRFE2022.Models;
+﻿using ClassTrackerBRFE2022.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

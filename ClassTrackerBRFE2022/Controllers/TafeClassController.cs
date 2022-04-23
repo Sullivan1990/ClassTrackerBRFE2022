@@ -1,6 +1,7 @@
-﻿using ClassTrackerBRFE2022.Models.TafeClassModels;
-using ClassTrackerBRFE2022.Models.TeacherModels;
-using ClassTrackerBRFE2022.Services;
+﻿using ClassTrackerBRFE2022.Data.Models.TafeClassModels;
+using ClassTrackerBRFE2022.Data.Models.TeacherModels;
+using ClassTrackerBRFE2022.Data.Repositories;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,14 +14,14 @@ namespace ClassTrackerBRFE2022.Controllers
 {
     public class TafeClassController : Controller
     {
-        private readonly IApiRequest<TafeClass> _apiRequest;
+        private readonly TafeClassRepository _tafeClassService;
         private readonly IApiRequest<Teacher> _apiTeacherRequest;
 
         private readonly string tafeclassController = "TafeClass";
 
-        public TafeClassController(IApiRequest<TafeClass> apiRequest, IApiRequest<Teacher> apiTeacherRequest)
+        public TafeClassController(TafeClassRepository tafeClassService, IApiRequest<Teacher> apiTeacherRequest)
         {
-            _apiRequest = apiRequest;
+            _tafeClassService = tafeClassService;
             _apiTeacherRequest = apiTeacherRequest;
         }
 
@@ -28,7 +29,7 @@ namespace ClassTrackerBRFE2022.Controllers
         // Display ALL Tafeclasses
         public ActionResult Index()
         {
-            List<TafeClass> tafeClasses = _apiRequest.GetAll(tafeclassController);
+            List<TafeClass> tafeClasses = _tafeClassService.GetAll(tafeclassController);
             return View(tafeClasses);
         }
 
@@ -39,14 +40,14 @@ namespace ClassTrackerBRFE2022.Controllers
         /// <returns></returns>
         public ActionResult TafeClassesForTeacher(int id)
         {
-            List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
+            List<TafeClass> tafeClasses = _tafeClassService.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
             return View("Index", tafeClasses);
         }
 
         // GET: TafeClassController/Details/5
         public ActionResult Details(int id)
         {
-            TafeClass tafeClass = _apiRequest.GetSingle(tafeclassController, id);
+            TafeClass tafeClass = _tafeClassService.GetSingle(tafeclassController, id);
             return View(tafeClass);
         }
 
@@ -95,7 +96,7 @@ namespace ClassTrackerBRFE2022.Controllers
             {
                 tafeClass.TafeClassId = 0;
 
-                _apiRequest.Create("TafeClass", tafeClass);                
+                _tafeClassService.Create("TafeClass", tafeClass);                
 
                 return RedirectToAction(nameof(Index));
             }

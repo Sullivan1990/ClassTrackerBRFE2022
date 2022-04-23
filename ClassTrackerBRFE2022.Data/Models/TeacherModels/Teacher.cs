@@ -1,10 +1,10 @@
-﻿using ClassTrackerBRFE2022.Models.TafeClassModels;
+﻿using ClassTrackerBRFE2022.Data.Models.TafeClassModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ClassTrackerBRFE2022.Models.TeacherModels
+namespace ClassTrackerBRFE2022.Data.Models.TeacherModels
 {
     public class Teacher
     {

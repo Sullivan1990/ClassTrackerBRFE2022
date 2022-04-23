@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassTrackerBRFE2022.Services;
-using ClassTrackerBRFE2022.Models.TeacherModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ClassTrackerBRFE2022.Helpers;
+using ClassTrackerBRFE2022.Data.Repositories;
+using ClassTrackerBRFE2022.Data.Models.TeacherModels;
 
 namespace ClassTrackerBRFE2022.Controllers
 {

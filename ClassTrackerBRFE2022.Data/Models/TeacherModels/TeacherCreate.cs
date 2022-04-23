@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace ClassTrackerBRFE2022.Models.TeacherModels
+namespace ClassTrackerBRFE2022.Data.Models.TeacherModels
 {
     public class TeacherCreate
     {
