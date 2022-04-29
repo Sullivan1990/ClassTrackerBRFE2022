@@ -8,6 +8,8 @@ using ClassTrackerBRFE2022.Services;
 using ClassTrackerBRFE2022.Models.TeacherModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ClassTrackerBRFE2022.Helpers;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace ClassTrackerBRFE2022.Controllers
 {
@@ -17,9 +19,13 @@ namespace ClassTrackerBRFE2022.Controllers
 
         private readonly string teacherController = "Teacher";
 
-        public TeacherController(IApiRequest<Teacher> apiRequest)
+        private IWebHostEnvironment _environment;
+
+
+        public TeacherController(IApiRequest<Teacher> apiRequest, IWebHostEnvironment environment)
         {
             _apiRequest = apiRequest;
+            _environment = environment;
         }
 
         [HttpPost]
@@ -184,6 +190,30 @@ namespace ClassTrackerBRFE2022.Controllers
             // Very Bad
             //return View("Index", _apiRequest.GetAll(teacherController).Where(c => c.Email.Contains(collection["emailProvider"])).ToList());
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            // retrieve folder path
+            string folderRoot = Path.Combine(_environment.ContentRootPath, "wwwroot\\Uploads");
 
+            // combine filename and folder path
+            string filePath = Path.Combine(folderRoot, file.FileName);
+
+            try
+            {
+                // save the file
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                return Ok(new { success = true, message = "File Uploaded" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { success = false, message = e.Message });
+            }
+        }
     }
 }

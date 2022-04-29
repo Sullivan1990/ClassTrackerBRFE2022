@@ -34,10 +34,41 @@
     </div>
 </div>
 
+<div class="row">
+    @using (Html.BeginForm("UploadFile", "Teacher", FormMethod.Post, new {@class = "dropzone", @id = "dropzone-form" })) 
+    { 
+        <div class="fallback">
+            <input name="file" type="file" />
+        </div>
+    }
+</div>
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script src="~/lib/dropzone/min/dropzone.min.js"></script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script type="text/javascript">
+
+    Dropzone.options.dropzoneForm = {
+        maxFiles: 1,
+        acceptedFiles: "video/*",
+        success: function (file, response) {
+            $("#Phone").val(file.upload.filename)
+            console.log("Filename: " + file.upload.filename);
+            file.previewElement.classList.add("dz-success");
+        },
+        error: function (file, message) {
+            alert(message);
+        }
+    }
+</script>
+
+
+
+

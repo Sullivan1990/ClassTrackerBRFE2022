@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "dropzone@5.9.3",
+      "destination": "wwwroot/lib/dropzone/",
+      "files": [
+        "min/dropzone.min.js",
+        "min/dropzone.min.css"
+      ]
+    }
+  ]
+}
