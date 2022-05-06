@@ -9,6 +9,13 @@
         "min/dropzone.min.js",
         "min/dropzone.min.css"
       ]
+    },
+    {
+      "library": "Chart.js@3.7.1",
+      "destination": "wwwroot/lib/Chart.js/",
+      "files": [
+        "chart.min.js"
+      ]
     }
   ]
 }

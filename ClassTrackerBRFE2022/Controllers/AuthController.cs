@@ -11,6 +11,12 @@ namespace ClassTrackerBRFE2022.Controllers
 {
     public class AuthController : Controller
     {
+        HttpClient _client;
+        public AuthController(IHttpClientFactory factory)
+        {
+            _client = factory.CreateClient("ApiClient");
+        }
+
         public IActionResult Login()
         {
             return View();
@@ -21,31 +27,25 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             string token = "";
 
-            using (HttpClient client = new HttpClient())
+            var response = _client.PostAsJsonAsync("Auth/GenerateToken", user).Result;
+
+            if (response.IsSuccessStatusCode)
             {
-                client.BaseAddress = new Uri("https://localhost:44379/api/");
+                // logged in
+                token = response.Content.ReadAsStringAsync().Result.Trim('"');
 
-                var response = client.PostAsJsonAsync("Auth/GenerateToken", user).Result;
-
-                if(response.IsSuccessStatusCode)
-                {
-                    // logged in
-                    token = response.Content.ReadAsStringAsync().Result;
-
-                    // Store the token in the session
-                    HttpContext.Session.SetString("Token", token);
-
-                }
-                else
-                {
-                    // there was an issue logging in
-                    ViewBag.Error = "The provided credentials were incorrect";
-                    // potentially save a message to ViewBag and render in the view
-                    return View();
-                }
+                // Store the token in the session
+                HttpContext.Session.SetString("Token", token);
+            }
+            else
+            {
+                // there was an issue logging in
+                ViewBag.Error = "The provided credentials were incorrect";
+                // potentially save a message to ViewBag and render in the view
+                return View();
             }
 
-                return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Logout()

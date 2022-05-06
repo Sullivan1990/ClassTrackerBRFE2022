@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace ClassTrackerBRFE2022
@@ -29,9 +30,17 @@ namespace ClassTrackerBRFE2022
         {
             services.AddControllersWithViews();
 
+            // Set up a central configuration for the HttpClient
+            services.AddHttpClient("ApiClient", c =>
+            {
+                c.BaseAddress = new Uri(Configuration["ApiUrl"]);
+                c.DefaultRequestHeaders.Clear();
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+
+
             // create an in memory Database for storing session content
             services.AddDistributedMemoryCache();
-
             // Define the session parameters
             services.AddSession(opts =>
             {

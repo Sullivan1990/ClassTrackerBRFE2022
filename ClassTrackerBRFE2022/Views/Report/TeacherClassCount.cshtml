@@ -1,0 +1,10 @@
+﻿
+<div><canvas id="barChart"></canvas></div>
+
+@{ ChartJSCore.Models.Chart chart = (ChartJSCore.Models.Chart)ViewData["chart"];}
+
+<script src="~/lib/Chart.js/chart.min.js"></script>
+
+<script>
+    @Html.Raw(chart.CreateChartCode("barChart"))
+</script>

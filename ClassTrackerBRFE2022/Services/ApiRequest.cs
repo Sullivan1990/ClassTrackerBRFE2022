@@ -10,21 +10,26 @@ namespace ClassTrackerBRFE2022.Services
 {
     public class ApiRequest<T> : IApiRequest<T>
     {
-        private static HttpClient _client;
+        // Removed the 'static' tag
+        private HttpClient _client;
+
         // required to gain access to the context
         private readonly HttpContext _httpContext;
-        public ApiRequest(IHttpContextAccessor httpContextAccessor)
+        public ApiRequest(IHttpContextAccessor httpContextAccessor, IHttpClientFactory factory)
         {
             // injecting a reference to the current context
             _httpContext = httpContextAccessor.HttpContext;
+            
+            // create a new client from our factory
+            _client = factory.CreateClient("ApiClient");
 
-            if(_client == null)
-            {
-                _client = new HttpClient();
-                _client.BaseAddress = new Uri("https://localhost:44379/api/");
-                _client.DefaultRequestHeaders.Clear();
-                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            }
+            //if(_client == null)
+            //{
+            //    _client = new HttpClient();
+            //    _client.BaseAddress = new Uri("https://classtrackerbrapi2022.azurewebsites.net/api/");
+            //    _client.DefaultRequestHeaders.Clear();
+            //    _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //}
 
             // if true, a token exists in the session
             if(_httpContext.Session.GetString("Token") != null)
