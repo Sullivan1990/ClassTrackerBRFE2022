@@ -1,6 +1,8 @@
 ﻿
 <div><canvas id="barChart"></canvas></div>
 
+<a asp-action="ExportData" asp-controller="Report" class="btn btn-dark">Export CSV</a>
+
 @{ ChartJSCore.Models.Chart chart = (ChartJSCore.Models.Chart)ViewData["chart"];}
 
 <script src="~/lib/Chart.js/chart.min.js"></script>
