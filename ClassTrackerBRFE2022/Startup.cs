@@ -51,10 +51,15 @@ namespace ClassTrackerBRFE2022
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddScoped<IApiRequest<Teacher>, ApiRequest<Teacher>>();
+            //services.AddScoped<IApiRequest<Teacher>, ApiRequest<Teacher>>();
             //services.AddSingleton<IApiRequest<Teacher>, ApiTestRequest<Teacher>>();
-            services.AddSingleton<IApiRequest<TafeClass>, ApiRequest<TafeClass>>();
-            
+            //services.AddScoped<IApiRequest<TafeClass>, ApiRequest<TafeClass>>();
+
+            services.AddSingleton<TestDB>();
+
+            services.AddSingleton<IApiRequest<TafeClass>, ApiTestRequest<TafeClass>>();
+            services.AddSingleton<IApiRequest<Teacher>, ApiTestRequest<Teacher>>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -83,20 +83,20 @@ namespace ClassTrackerBRFE2022.Services
 
         }
 
-        /// <summary>
-        /// Retrieves a list of items where the foreign key matches the provided Id
-        /// </summary>
-        /// <param name="controllerName"></param>
-        /// <param name="endpointName"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public List<T> GetAllForParentId(string controllerName, string endpointName, int id)
+        
+
+        public List<T> GetAllForEndpoint(string endpoint)
         {
-            var response = _client.GetAsync($"{controllerName}/{endpointName}/{id}").Result;
+            var response = _client.GetAsync(endpoint).Result;
 
             var responseEntities = response.Content.ReadAsAsync<List<T>>().Result;
 
             return responseEntities;
+        }
+
+        public T GetSingleForEndpoint(string endpoint)
+        {
+            throw new NotImplementedException();
         }
     }
 }

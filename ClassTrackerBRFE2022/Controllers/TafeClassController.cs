@@ -39,7 +39,8 @@ namespace ClassTrackerBRFE2022.Controllers
         /// <returns></returns>
         public ActionResult TafeClassesForTeacher(int id)
         {
-            List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
+            //List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
+            List<TafeClass> tafeClasses = _apiRequest.GetAllForEndpoint($"TafeClass/TafeClassesForTeacherId/{id}");
             return View("Index", tafeClasses);
         }
 
