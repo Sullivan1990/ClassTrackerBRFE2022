@@ -39,7 +39,8 @@ namespace ClassTrackerBRFE2022.Controllers
         /// <returns></returns>
         public ActionResult TafeClassesForTeacher(int id)
         {
-            List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
+            //List<TafeClass> tafeClasses = _apiRequest.GetAllForParentId(tafeclassController, "TafeClassesForTeacherId", id);
+            List<TafeClass> tafeClasses = _apiRequest.GetAllForEndpoint($"{tafeclassController}/TafeClassesForTeacherId/{id}");
             return View("Index", tafeClasses);
         }
 
@@ -55,21 +56,6 @@ namespace ClassTrackerBRFE2022.Controllers
         {
             // Get a list of teachers from the API
             var teachers = _apiTeacherRequest.GetAll("Teacher");
-
-            //// Create a List of SelectListItems
-            //List<SelectListItem> teacherDDL = new List<SelectListItem>(); 
-
-            //// For each Teacher in the list of teachers
-            //foreach(var teacher in teachers)
-            //{
-            //    SelectListItem item = new SelectListItem
-            //    {
-            //        Text = teacher.Name,
-            //        Value = teacher.TeacherId.ToString()
-            //    };
-
-            //    teacherDDL.Add(item);
-            //}
             
 
             var teacherDropDownListModel = teachers.Select(c => new SelectListItem{
@@ -77,11 +63,11 @@ namespace ClassTrackerBRFE2022.Controllers
                 Value = c.TeacherId.ToString()
             }).ToList();
 
-            ViewBag.TeacherDropDown = teacherDropDownListModel;
+            //ViewBag.TeacherDropDown = teacherDropDownListModel;
 
             ViewData.Add("teacherDDL", teacherDropDownListModel);
 
-            TempData.Add("teacherDDL", teacherDropDownListModel);
+            //TempData.Add("teacherDDL", teacherDropDownListModel);
 
             return View();
         }

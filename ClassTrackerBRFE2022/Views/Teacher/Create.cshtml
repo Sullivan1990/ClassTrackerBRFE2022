@@ -57,7 +57,7 @@
 
     Dropzone.options.dropzoneForm = {
         maxFiles: 1,
-        acceptedFiles: "video/*",
+        acceptedFiles: "image/*",
         success: function (file, response) {
             $("#Phone").val(file.upload.filename)
             console.log("Filename: " + file.upload.filename);

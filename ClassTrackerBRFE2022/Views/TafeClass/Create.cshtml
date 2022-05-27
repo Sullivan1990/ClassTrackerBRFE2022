@@ -3,13 +3,12 @@
 @{
     // Added to demonstrate the different methods of passing data between the Controller and View
     ViewData["Title"] = "Create";
-    var teacherDropList = ViewBag.TeacherDropDown;
+    //var teacherDropList = ViewBag.TeacherDropDown;
 
     var teacherDropList2 = (List<SelectListItem>)ViewData["teacherDDL"];
 
-    var teacherDropList3 = ViewData["teacherDDL"] as List<SelectListItem>;
+    //var teacherDropList3 = ViewData["teacherDDL"] as List<SelectListItem>;
 
-    var teacherDropList4 = TempData["teacherDDL"] as List<SelectListItem>;
 
 
 }

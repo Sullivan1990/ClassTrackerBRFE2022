@@ -23,13 +23,7 @@ namespace ClassTrackerBRFE2022.Services
             // create a new client from our factory
             _client = factory.CreateClient("ApiClient");
 
-            //if(_client == null)
-            //{
-            //    _client = new HttpClient();
-            //    _client.BaseAddress = new Uri("https://classtrackerbrapi2022.azurewebsites.net/api/");
-            //    _client.DefaultRequestHeaders.Clear();
-            //    _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //}
+
 
             // if true, a token exists in the session
             if(_httpContext.Session.GetString("Token") != null)
@@ -83,20 +77,18 @@ namespace ClassTrackerBRFE2022.Services
 
         }
 
-        /// <summary>
-        /// Retrieves a list of items where the foreign key matches the provided Id
-        /// </summary>
-        /// <param name="controllerName"></param>
-        /// <param name="endpointName"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public List<T> GetAllForParentId(string controllerName, string endpointName, int id)
+        public List<T> GetAllForEndpoint(string endpoint)
         {
-            var response = _client.GetAsync($"{controllerName}/{endpointName}/{id}").Result;
+            var response = _client.GetAsync(endpoint).Result;
 
             var responseEntities = response.Content.ReadAsAsync<List<T>>().Result;
 
             return responseEntities;
+        }
+
+        public T GetSingleForEndpoint(string endpoint)
+        {
+            throw new NotImplementedException();
         }
     }
 }

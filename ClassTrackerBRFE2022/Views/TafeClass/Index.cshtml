@@ -55,9 +55,9 @@
                 @Html.ActionLink(item.Teacher.Name, "Details", "Teacher", new { id = item.TeacherId})
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id=item.TafeClassId  }) |
+                @Html.ActionLink("Details", "Details", new { id=item.TafeClassId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.TafeClassId })
             </td>
             @Html.HiddenFor(modelItem => item.TafeClassId)
         </tr>

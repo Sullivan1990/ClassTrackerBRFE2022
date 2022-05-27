@@ -1,5 +1,6 @@
 using ClassTrackerBRFE2022.Models.TafeClassModels;
 using ClassTrackerBRFE2022.Models.TeacherModels;
+using ClassTrackerBRFE2022.Models.Testing;
 using ClassTrackerBRFE2022.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,11 +51,16 @@ namespace ClassTrackerBRFE2022
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+#if TEST
+
+            services.AddSingleton<TestDatabase>();
+            services.AddScoped<IApiRequest<Teacher>, InMemoryRequest<Teacher>>();
+            services.AddScoped<IApiRequest<TafeClass>, InMemoryRequest<TafeClass>>();
+#else
 
             services.AddScoped<IApiRequest<Teacher>, ApiRequest<Teacher>>();
-            //services.AddSingleton<IApiRequest<Teacher>, ApiTestRequest<Teacher>>();
-            services.AddSingleton<IApiRequest<TafeClass>, ApiRequest<TafeClass>>();
-            
+            services.AddScoped<IApiRequest<TafeClass>, ApiRequest<TafeClass>>();
+#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
